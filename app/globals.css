@@ -146,6 +146,15 @@ body {
   }
 }
 
+/* Portrait: turning gradient ring + orbiting moon */
+.portrait-ring {
+  background: conic-gradient(from 0deg, var(--color-sun), var(--color-nebula), var(--color-ion), var(--color-sun));
+  animation: spin 9s linear infinite;
+}
+.portrait-orbit {
+  animation: spin 14s linear infinite;
+}
+
 /* ==================================================================
    5. Flow diagrams: glowing connectors with a travelling light
    ================================================================== */
@@ -192,6 +201,8 @@ body {
   .orbit-counter,
   .sun-pulse,
   .planet,
+  .portrait-ring,
+  .portrait-orbit,
   .flow-link::after {
     animation: none !important;
   }

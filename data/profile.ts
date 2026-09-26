@@ -12,4 +12,8 @@ export const profile = {
   linkedin: 'https://www.linkedin.com/in/jaswanth-samba-2944a7106/' as string | null,
   upwork: null as string | null,
   resume: '/resume.pdf' as string | null,
+  portrait: {
+    src: '/images/portrait.webp',
+    alt: 'Jaswanth Samba smiling, wearing a dark-collared checked jacket.',
+  },
 }

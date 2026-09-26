@@ -17,5 +17,7 @@ export const education = [
 export const certification = {
   org: 'PMI',
   name: 'Cognitive Project Management in Artificial Intelligence',
+  /** Short name used in the badge next to your name */
+  short: 'CPMAI',
   date: 'May 2025',
 }

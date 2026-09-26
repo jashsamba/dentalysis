@@ -1,6 +1,7 @@
 import { profile } from '@/data/profile'
 import { Button } from '../ui/Button'
 import { Placeholder } from '../ui/Placeholder'
+import { Portrait } from '../ui/Portrait'
 
 /** Section 9: contact details, links and footer. */
 export function Contact() {
@@ -15,10 +16,15 @@ export function Contact() {
         }}
       />
       <div className="relative mx-auto max-w-6xl px-4 py-24 sm:px-6 md:py-32">
-        <p className="font-mono text-sm text-sun">Contact</p>
-        <h2 id="contact" className="text-cosmic mt-3 max-w-3xl text-3xl font-semibold tracking-tight sm:text-5xl">
-          Building something with AI and data? Let&apos;s talk.
-        </h2>
+        <div className="flex flex-col-reverse gap-10 md:flex-row md:items-center md:justify-between">
+          <div>
+            <p className="font-mono text-sm text-sun">Contact</p>
+            <h2 id="contact" className="text-cosmic mt-3 max-w-3xl text-3xl font-semibold tracking-tight sm:text-5xl">
+              Building something with AI and data? Let&apos;s talk.
+            </h2>
+          </div>
+          <Portrait size={170} className="md:mr-10" />
+        </div>
 
         <dl className="mt-10 grid max-w-3xl gap-6 sm:grid-cols-2">
           <div className="glass rounded-2xl p-5">

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { profile } from '@/data/profile'
+import { CertBadge } from '../ui/CertBadge'
 
 const nav = [
   { href: '/#work', label: 'Work' },
@@ -16,10 +17,15 @@ export function SiteHeader() {
       className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.07] bg-void/70 backdrop-blur-xl"
     >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-        <Link href="/" transitionTypes={['nav-back']} className="flex items-center gap-2.5 font-semibold tracking-tight text-star">
-          <span aria-hidden className="h-2.5 w-2.5 rounded-full bg-sun shadow-[0_0_12px_3px_rgba(251,191,36,0.6)]" />
-          {profile.name}
-        </Link>
+        <div className="flex items-center gap-3">
+          <Link href="/" transitionTypes={['nav-back']} className="flex items-center gap-2.5 font-semibold tracking-tight text-star">
+            <span aria-hidden className="h-2.5 w-2.5 rounded-full bg-sun shadow-[0_0_12px_3px_rgba(251,191,36,0.6)]" />
+            {profile.name}
+          </Link>
+          <span className="hidden md:block">
+            <CertBadge size="sm" />
+          </span>
+        </div>
         <nav aria-label="Main">
           <ul className="flex items-center gap-1 text-sm sm:gap-2">
             {nav.map((item) => (
