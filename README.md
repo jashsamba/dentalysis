@@ -12,15 +12,35 @@ npm run build    # static site in /out
 
 ## Where things live
 
-| What | File |
-| --- | --- |
-| Home page copy (hero, impact, Musashi work, experience, skills, contact) | `lib/site.ts` |
-| Featured projects (title, colours, stats, stack) | `lib/projects.ts` |
-| Case study write-ups | `content/projects/<slug>.mdx` |
-| Images | `public/images/` |
-| Colours, fonts, animations | `app/globals.css` |
+Every folder has one job. To change **text**, edit `data/`. To change **how a section looks**, edit `components/sections/`.
 
-To add a project: add an entry in `lib/projects.ts` and a matching `content/projects/<slug>.mdx`.
+```
+app/                      pages (routes only)
+  page.tsx                home page: the list of sections, in order
+  projects/[slug]/        case study page template
+  globals.css             colours, fonts, space animations
+data/                     all the words and numbers, one file per section
+  profile.ts              name, headline, email, phone, links, resume
+  impact.ts               the 4 big numbers
+  work.ts                 Musashi AI projects (+ their flowchart steps)
+  data-engineering.ts
+  projects.ts             the 4 personal projects (colours, stats, stack)
+  experiments.ts
+  experience.ts
+  education.ts
+  skills.ts
+content/projects/*.mdx    the long case study write-ups
+components/
+  layout/                 header, starfield background, page transitions
+  sections/               one file per home page section (Hero, Impact, ...)
+  projects/               project panels, scroll deck, planets, before/after slider
+  diagrams/               solar system (hero) and flowcharts
+  ui/                     small building blocks: Button, Placeholder, SectionHeading
+lib/                      helpers (theme colours, media query hook)
+public/                   images and resume.pdf
+```
+
+To add a project: add an entry in `data/projects.ts` and a matching `content/projects/<slug>.mdx`.
 
 ## Placeholders
 

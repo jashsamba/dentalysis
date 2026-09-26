@@ -1,7 +1,8 @@
 import type { Metadata, Viewport } from 'next'
 import { IBM_Plex_Mono, IBM_Plex_Sans } from 'next/font/google'
-import { SiteHeader } from '@/components/SiteHeader'
-import { profile } from '@/lib/site'
+import { SiteHeader } from '@/components/layout/SiteHeader'
+import { SpaceBackground } from '@/components/layout/SpaceBackground'
+import { profile } from '@/data/profile'
 import './globals.css'
 
 const sans = IBM_Plex_Sans({
@@ -26,7 +27,7 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  themeColor: '#14213d',
+  themeColor: '#04050d',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -35,10 +36,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <a
           href="#main"
-          className="fixed top-3 left-3 z-[60] -translate-y-20 rounded-md bg-amber px-4 py-2 font-medium text-ink focus:translate-y-0"
+          className="fixed top-3 left-3 z-[60] -translate-y-20 rounded-md bg-sun px-4 py-2 font-medium text-void focus:translate-y-0"
         >
           Skip to content
         </a>
+        <SpaceBackground />
         <SiteHeader />
         {children}
       </body>

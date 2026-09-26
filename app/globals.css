@@ -1,19 +1,19 @@
 @import 'tailwindcss';
 
-/* ------------------------------------------------------------------
-   Design tokens
-   ------------------------------------------------------------------ */
+/* ==================================================================
+   1. Design tokens: deep space palette
+   ================================================================== */
 @theme {
-  --color-ink: #14213d;
-  --color-ink-2: #1c2c50;
-  --color-paper: #f4f6f8;
-  --color-card: #ffffff;
-  --color-graphite: #3a3f47;
-  --color-slate: #5d6572;
-  --color-mist: #c9d1db;
-  --color-amber: #f2a541;
-  --color-amber-deep: #b36b00;
-  --color-teal: #1f6f78;
+  --color-void: #04050d; /* page background */
+  --color-space: #0a0e22; /* raised surfaces */
+  --color-space-2: #121838; /* cards, diagram nodes */
+  --color-star: #eef0fb; /* headings, strong text */
+  --color-dust: #b4bad6; /* body text */
+  --color-haze: #7d85a8; /* muted text */
+  --color-sun: #fbbf24; /* primary accent: the sun */
+  --color-sun-soft: #fde68a;
+  --color-nebula: #a78bfa; /* secondary accent */
+  --color-ion: #67e8f9; /* tertiary accent */
 
   --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-plex-mono), ui-monospace, monospace;
@@ -24,23 +24,25 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 6.5rem;
+  background: var(--color-void);
+  color-scheme: dark;
 }
 
 body {
-  background: var(--color-paper);
-  color: var(--color-graphite);
+  /* transparent so the fixed starfield (z-index -10) shows through; html paints the void */
+  background: transparent;
+  color: var(--color-dust);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
 
 ::selection {
-  background: var(--color-amber);
-  color: var(--color-ink);
+  background: var(--color-sun);
+  color: var(--color-void);
 }
 
-/* Visible keyboard focus everywhere */
 :focus-visible {
-  outline: 3px solid var(--color-amber);
+  outline: 3px solid var(--color-sun);
   outline-offset: 3px;
   border-radius: 4px;
 }
@@ -49,40 +51,125 @@ body {
   html {
     scroll-behavior: auto;
   }
-  .flow-dot {
-    display: none;
+}
+
+/* Gradient headline text */
+.text-cosmic {
+  background: linear-gradient(100deg, var(--color-star) 20%, var(--color-sun-soft) 55%, var(--color-nebula) 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Frosted glass surface used by cards and sections */
+.glass {
+  background: linear-gradient(180deg, rgb(255 255 255 / 0.055), rgb(255 255 255 / 0.02));
+  border: 1px solid rgb(255 255 255 / 0.09);
+  backdrop-filter: blur(6px);
+}
+
+/* ==================================================================
+   2. Background: nebula clouds drifting behind the starfield
+   ================================================================== */
+.nebula {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(90px);
+  opacity: 0.32;
+  animation: drift 38s ease-in-out infinite alternate;
+}
+@keyframes drift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(6vw, -4vh, 0) scale(1.15);
   }
 }
 
-/* ------------------------------------------------------------------
-   Flow diagram connectors: a line with a soft pulse travelling along it
-   ------------------------------------------------------------------ */
-.flow-connector {
-  background: color-mix(in srgb, var(--line) 40%, transparent);
-  overflow: hidden;
+/* ==================================================================
+   3. Hero solar system
+   ================================================================== */
+.orbit-spin {
+  transform-origin: 260px 260px;
+  animation: spin var(--orbit-duration, 80s) linear infinite;
 }
-.flow-connector::after {
+.orbit-spin.reverse {
+  animation-direction: reverse;
+}
+/* keep planet labels upright while their orbit turns */
+.orbit-counter {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: spin var(--orbit-duration, 80s) linear infinite reverse;
+}
+.orbit-spin.reverse .orbit-counter {
+  animation-direction: normal;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.sun-pulse {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sun-pulse 5s ease-in-out infinite;
+}
+@keyframes sun-pulse {
+  50% {
+    transform: scale(1.08);
+    opacity: 0.75;
+  }
+}
+
+/* ==================================================================
+   4. Project planets
+   ================================================================== */
+.planet {
+  background:
+    radial-gradient(circle at 32% 28%, var(--planet-light) 0%, transparent 55%),
+    radial-gradient(circle at 50% 50%, var(--planet-dark) 30%, #02030a 100%);
+  box-shadow:
+    inset -30px -40px 80px rgb(0 0 0 / 0.65),
+    0 0 90px color-mix(in srgb, var(--project-accent) 35%, transparent);
+  animation: float 9s ease-in-out infinite;
+}
+.planet-ring {
+  border: 2px solid color-mix(in srgb, var(--planet-light) 55%, transparent);
+  box-shadow: 0 0 24px color-mix(in srgb, var(--planet-light) 25%, transparent);
+  transform: rotateX(74deg) rotateZ(-18deg);
+}
+@keyframes float {
+  50% {
+    transform: translateY(-14px);
+  }
+}
+
+/* ==================================================================
+   5. Flow diagrams: glowing connectors with a travelling light
+   ================================================================== */
+.flow-link {
+  position: relative;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--flow-accent) 35%, transparent);
+}
+/* vertical by default */
+.flow-link::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, transparent, var(--line), transparent);
-  animation: pulse-y 2.4s ease-in-out infinite;
+  background: linear-gradient(180deg, transparent, var(--flow-accent), transparent);
+  animation: travel-y 2.6s ease-in-out infinite;
 }
-@media (min-width: 640px) {
-  .sm\:w-6.flow-connector::after {
-    background: linear-gradient(to right, transparent, var(--line), transparent);
-    animation-name: pulse-x;
+/* horizontal once the diagram becomes a row */
+@media (min-width: 1024px) {
+  .flow-link.flow-auto::after {
+    background: linear-gradient(90deg, transparent, var(--flow-accent), transparent);
+    animation-name: travel-x;
   }
 }
-@keyframes pulse-y {
-  from {
-    transform: translateY(-100%);
-  }
-  to {
-    transform: translateY(100%);
-  }
-}
-@keyframes pulse-x {
+@keyframes travel-x {
   from {
     transform: translateX(-100%);
   }
@@ -90,28 +177,44 @@ body {
     transform: translateX(100%);
   }
 }
+@keyframes travel-y {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .flow-connector::after {
-    animation: none;
+  .nebula,
+  .orbit-spin,
+  .orbit-counter,
+  .sun-pulse,
+  .planet,
+  .flow-link::after {
+    animation: none !important;
+  }
+  .flow-dot {
     display: none;
   }
 }
 
-/* ------------------------------------------------------------------
-   Case study prose (MDX)
-   ------------------------------------------------------------------ */
+/* ==================================================================
+   6. Case study prose (MDX)
+   ================================================================== */
 .prose-case h2 {
   font-size: 1.6rem;
   line-height: 1.25;
   font-weight: 600;
-  color: var(--color-ink);
+  color: var(--color-star);
   margin: 3.5rem 0 1rem;
   letter-spacing: -0.01em;
 }
 .prose-case h3 {
   font-size: 1.15rem;
   font-weight: 600;
-  color: var(--color-ink);
+  color: var(--color-star);
   margin: 2rem 0 0.5rem;
 }
 .prose-case p,
@@ -131,38 +234,38 @@ body {
   margin: 0.35rem 0;
 }
 .prose-case li::marker {
-  color: var(--project-accent-strong, var(--color-amber-deep));
+  color: var(--project-accent, var(--color-sun));
 }
 .prose-case strong {
-  color: var(--color-ink);
+  color: var(--color-star);
   font-weight: 600;
 }
 .prose-case blockquote {
-  border-left: 3px solid var(--project-accent-strong, var(--color-amber));
+  border-left: 3px solid var(--project-accent, var(--color-sun));
   padding: 0.25rem 0 0.25rem 1.25rem;
   margin: 1.5rem 0;
   font-size: 1.15rem;
-  color: var(--color-ink);
+  color: var(--color-star);
 }
 .prose-case blockquote p {
   font-size: inherit;
 }
 .prose-case a {
-  color: var(--color-teal);
+  color: var(--project-accent, var(--color-ion));
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 .prose-case code {
   font-family: var(--font-mono);
   font-size: 0.9em;
-  background: #e6eaef;
+  background: rgb(255 255 255 / 0.08);
   padding: 0.1em 0.35em;
   border-radius: 4px;
 }
 
-/* ------------------------------------------------------------------
-   View transitions (React <ViewTransition> + browser API)
-   ------------------------------------------------------------------ */
+/* ==================================================================
+   7. View transitions (project → project morphs, page slides)
+   ================================================================== */
 :root {
   --vt-exit: 160ms;
   --vt-enter: 240ms;
@@ -173,8 +276,6 @@ body {
   pointer-events: none;
 }
 
-/* Shared elements: a project panel, title or image morphing
-   from one page into the next. */
 ::view-transition-group(.morph) {
   animation-duration: var(--vt-move);
   animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
@@ -184,17 +285,15 @@ body {
 }
 ::view-transition-old(.morph),
 ::view-transition-new(.morph) {
-  /* Stretch snapshots instead of letterboxing them while the panel resizes */
   height: 100%;
   object-fit: cover;
 }
 @keyframes via-blur {
   35% {
-    filter: blur(4px);
+    filter: blur(3px);
   }
 }
 
-/* Page content sliding forward / back */
 ::view-transition-old(.nav-forward) {
   --slide-offset: -72px;
   animation:
@@ -238,15 +337,20 @@ body {
   }
 }
 
-/* Header stays put while content moves */
-::view-transition-group(site-header) {
+/* Header and starfield stay put while content moves */
+::view-transition-group(site-header),
+::view-transition-group(starfield) {
   animation: none;
+}
+::view-transition-group(site-header) {
   z-index: 100;
 }
-::view-transition-old(site-header) {
+::view-transition-old(site-header),
+::view-transition-old(starfield) {
   display: none;
 }
-::view-transition-new(site-header) {
+::view-transition-new(site-header),
+::view-transition-new(starfield) {
   animation: none;
 }
 

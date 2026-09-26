@@ -1,4 +1,7 @@
-import type { FlowNode } from './site'
+// The four featured personal projects, in display order.
+// Each one has its own colour "world" that carries from the home page into its case study.
+
+import type { FlowNode } from './types'
 
 export type ProjectTheme = {
   /** Panel background */
@@ -11,8 +14,10 @@ export type ProjectTheme = {
   muted: string
   /** Highlight colour on the dark panel */
   accent: string
-  /** Accent dark enough to use on the light case study body */
-  accentStrong: string
+  /** Planet sphere gradient (light side → dark side) */
+  planet: [string, string]
+  /** Draw a ring around the planet */
+  ring?: boolean
 }
 
 export type ProjectMedia =
@@ -40,12 +45,13 @@ export const projects: Project[] = [
     kicker: 'Private voice assistant',
     oneLiner: 'A voice assistant that runs entirely on my laptop, with no cloud calls.',
     theme: {
-      bg: '#16123a',
+      bg: '#120d33',
       surface: '#241e57',
       text: '#eeebff',
       muted: '#b3acd9',
       accent: '#b9a7ff',
-      accentStrong: '#5b45c9',
+      planet: ['#d9d0ff', '#4b3aa8'],
+      ring: true,
     },
     media: {
       kind: 'flow',
@@ -73,12 +79,12 @@ export const projects: Project[] = [
     oneLiner:
       'An endless trivia game whose questions come from an AI pipeline built on 40 topics and 2,000 subtopics.',
     theme: {
-      bg: '#0f2a22',
+      bg: '#0b231c',
       surface: '#1a3d31',
       text: '#f4edd8',
       muted: '#b9c4b3',
       accent: '#e9b949',
-      accentStrong: '#8a6a12',
+      planet: ['#f3d27a', '#1f5a3f'],
     },
     media: {
       kind: 'phones',
@@ -110,12 +116,12 @@ export const projects: Project[] = [
     oneLiner:
       'A multi-user agent that finds jobs, ranks them against your resume, and writes tailored cover letters.',
     theme: {
-      bg: '#1b2230',
+      bg: '#0f1a2f',
       surface: '#28324a',
       text: '#e9eef6',
       muted: '#a9b4c6',
       accent: '#7cc4ff',
-      accentStrong: '#1f64a8',
+      planet: ['#bfe3ff', '#1d4f8f'],
     },
     media: {
       kind: 'flow',
@@ -141,12 +147,13 @@ export const projects: Project[] = [
     kicker: 'Voice-note appointment booking',
     oneLiner: 'A patient leaves a voice note and the appointment books itself.',
     theme: {
-      bg: '#0d3a3a',
+      bg: '#092d2f',
       surface: '#155050',
       text: '#e6f6f2',
       muted: '#a7cfc7',
       accent: '#7fe0c8',
-      accentStrong: '#11776a',
+      planet: ['#c6fbee', '#0f6b62'],
+      ring: true,
     },
     media: {
       kind: 'flow',
@@ -173,15 +180,4 @@ export function getProject(slug: string) {
 export function getNextProject(slug: string) {
   const i = projects.findIndex((p) => p.slug === slug)
   return projects[(i + 1) % projects.length]
-}
-
-export function themeVars(theme: ProjectTheme): React.CSSProperties {
-  return {
-    '--project-bg': theme.bg,
-    '--project-surface': theme.surface,
-    '--project-text': theme.text,
-    '--project-muted': theme.muted,
-    '--project-accent': theme.accent,
-    '--project-accent-strong': theme.accentStrong,
-  } as React.CSSProperties
 }

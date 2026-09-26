@@ -2,13 +2,13 @@
 
 import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from 'motion/react'
 import { useRef, type RefObject } from 'react'
-import type { Project } from '@/lib/projects'
+import type { Project } from '@/data/projects'
 import { useMediaQuery } from '@/lib/useMediaQuery'
 import { ProjectPanel } from './ProjectPanel'
 
 /**
  * Projects as a deck: on wide screens each panel pins, the next one slides up over it,
- * and the covered panel recedes. On phones (or with reduced motion) they simply stack.
+ * and the covered panel recedes into space. On phones (or with reduced motion) they simply stack.
  */
 export function ProjectStack({ projects }: { projects: Project[] }) {
   const refs = useRef<(HTMLDivElement | null)[]>([])
@@ -92,20 +92,14 @@ function AnimatedPanel({
   leave: MotionValue<number>
   isLast: boolean
 }) {
-  const scale = useTransform(leave, [0, 1], [1, isLast ? 1 : 0.9])
-  const dim = useTransform(leave, [0, 1], [0, isLast ? 0 : 0.55])
+  const scale = useTransform(leave, [0, 1], [1, isLast ? 1 : 0.88])
+  const dim = useTransform(leave, [0, 1], [0, isLast ? 0 : 0.6])
+  const blur = useTransform(leave, [0, 1], ['blur(0px)', isLast ? 'blur(0px)' : 'blur(3px)'])
 
   return (
-    <motion.div
-      className="relative h-full origin-top will-change-transform"
-      style={{ scale }}
-    >
+    <motion.div className="relative h-full origin-top will-change-transform" style={{ scale, filter: blur }}>
       <ProjectPanel project={project} index={index} total={total} />
-      <motion.div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 rounded-3xl bg-black"
-        style={{ opacity: dim }}
-      />
+      <motion.div aria-hidden className="pointer-events-none absolute inset-0 rounded-3xl bg-void" style={{ opacity: dim }} />
     </motion.div>
   )
 }

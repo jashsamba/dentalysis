@@ -1,7 +1,7 @@
-import type { Project } from '@/lib/projects'
-import { FlowDiagram } from './FlowDiagram'
+import type { Project } from '@/data/projects'
+import { FlowDiagram } from '../diagrams/FlowDiagram'
 
-/** The visual on a project's panel: real app renders, or a generic flow diagram until screenshots exist. */
+/** The visual on a project's panel: real app renders, or a flow diagram until screenshots exist. */
 export function ProjectMedia({ project, size = 'md' }: { project: Project; size?: 'md' | 'lg' }) {
   const { media } = project
 
@@ -15,14 +15,14 @@ export function ProjectMedia({ project, size = 'md' }: { project: Project; size?
           width={420}
           height={880}
           loading="lazy"
-          className={`absolute top-1/2 left-[52%] ${w} -translate-y-[46%] rotate-6 rounded-[1.6rem] border-4 border-black/40 shadow-2xl`}
+          className={`absolute top-1/2 left-[52%] ${w} -translate-y-[46%] rotate-6 rounded-[1.6rem] border-4 border-black/50 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)]`}
         />
         <img
           src={media.front.src}
           alt={media.front.alt}
           width={420}
           height={880}
-          className={`absolute top-1/2 right-[50%] ${w} -translate-y-1/2 -rotate-3 rounded-[1.6rem] border-4 border-black/40 shadow-2xl`}
+          className={`absolute top-1/2 right-[50%] ${w} -translate-y-1/2 -rotate-3 rounded-[1.6rem] border-4 border-black/50 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)]`}
         />
       </div>
     )
@@ -30,7 +30,7 @@ export function ProjectMedia({ project, size = 'md' }: { project: Project; size?
 
   return (
     <figure className="mx-auto w-full max-w-xs">
-      <FlowDiagram nodes={media.nodes} tone="panel" direction="vertical" label={`${project.title} flow`} />
+      <FlowDiagram nodes={media.nodes} layout="vertical" accent="var(--project-accent)" label={`${project.title} flow`} />
       <figcaption className="mt-4 text-center text-sm text-[color:var(--project-muted)]">{media.caption}</figcaption>
     </figure>
   )

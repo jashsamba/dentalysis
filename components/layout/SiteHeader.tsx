@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { profile } from '@/lib/site'
+import { profile } from '@/data/profile'
 
 const nav = [
   { href: '/#work', label: 'Work' },
@@ -8,24 +8,23 @@ const nav = [
   { href: '/#contact', label: 'Contact' },
 ]
 
+/** Top bar. Its view-transition name keeps it still while pages slide underneath. */
 export function SiteHeader() {
   return (
     <header
       style={{ viewTransitionName: 'site-header' }}
-      className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-ink/85 text-paper backdrop-blur-md"
+      className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.07] bg-void/70 backdrop-blur-xl"
     >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-        <Link href="/" transitionTypes={['nav-back']} className="font-semibold tracking-tight">
+        <Link href="/" transitionTypes={['nav-back']} className="flex items-center gap-2.5 font-semibold tracking-tight text-star">
+          <span aria-hidden className="h-2.5 w-2.5 rounded-full bg-sun shadow-[0_0_12px_3px_rgba(251,191,36,0.6)]" />
           {profile.name}
         </Link>
         <nav aria-label="Main">
           <ul className="flex items-center gap-1 text-sm sm:gap-2">
             {nav.map((item) => (
               <li key={item.href} className={item.label === 'Experience' ? 'hidden sm:block' : ''}>
-                <Link
-                  href={item.href}
-                  className="rounded-md px-2 py-1.5 text-paper/80 transition-colors hover:text-amber sm:px-3"
-                >
+                <Link href={item.href} className="rounded-md px-2 py-1.5 text-dust transition-colors hover:text-sun sm:px-3">
                   {item.label}
                 </Link>
               </li>

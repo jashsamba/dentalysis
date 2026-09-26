@@ -10,9 +10,9 @@ export function BeforeAfter({ before, after, width = 420, height = 880 }: { befo
   const id = useId()
 
   return (
-    <figure className="not-prose my-8">
+    <figure className="my-8">
       <div
-        className="relative mx-auto w-full max-w-[320px] overflow-hidden rounded-[1.6rem] border-4 border-ink/80 shadow-xl select-none"
+        className="relative mx-auto w-full max-w-[320px] overflow-hidden rounded-[1.6rem] border-4 border-black/60 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)] select-none"
         style={{ aspectRatio: `${width} / ${height}` }}
       >
         <img src={after.src} alt={after.alt} width={width} height={height} className="absolute inset-0 h-full w-full object-cover" />
@@ -25,9 +25,8 @@ export function BeforeAfter({ before, after, width = 420, height = 880 }: { befo
           style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}
         />
 
-        {/* Divider */}
         <div aria-hidden className="pointer-events-none absolute inset-y-0 w-0.5 bg-white shadow" style={{ left: `${pos}%` }}>
-          <span className="absolute top-1/2 left-1/2 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white text-sm text-ink shadow-md">
+          <span className="absolute top-1/2 left-1/2 flex h-9 w-9 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white text-sm text-void shadow-md">
             ⇆
           </span>
         </div>
@@ -48,7 +47,7 @@ export function BeforeAfter({ before, after, width = 420, height = 880 }: { befo
           className="absolute inset-0 h-full w-full cursor-ew-resize opacity-0"
         />
       </div>
-      <figcaption className="mt-3 text-center text-sm text-slate">
+      <figcaption className="mt-3 text-center text-sm text-haze">
         Drag the handle to compare the {before.label.toLowerCase()} and the {after.label.toLowerCase()}.
       </figcaption>
     </figure>
