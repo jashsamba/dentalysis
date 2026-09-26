@@ -1,0 +1,260 @@
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------------
+   Design tokens
+   ------------------------------------------------------------------ */
+@theme {
+  --color-ink: #14213d;
+  --color-ink-2: #1c2c50;
+  --color-paper: #f4f6f8;
+  --color-card: #ffffff;
+  --color-graphite: #3a3f47;
+  --color-slate: #5d6572;
+  --color-mist: #c9d1db;
+  --color-amber: #f2a541;
+  --color-amber-deep: #b36b00;
+  --color-teal: #1f6f78;
+
+  --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6.5rem;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-graphite);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-amber);
+  color: var(--color-ink);
+}
+
+/* Visible keyboard focus everywhere */
+:focus-visible {
+  outline: 3px solid var(--color-amber);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .flow-dot {
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Flow diagram connectors: a line with a soft pulse travelling along it
+   ------------------------------------------------------------------ */
+.flow-connector {
+  background: color-mix(in srgb, var(--line) 40%, transparent);
+  overflow: hidden;
+}
+.flow-connector::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent, var(--line), transparent);
+  animation: pulse-y 2.4s ease-in-out infinite;
+}
+@media (min-width: 640px) {
+  .sm\:w-6.flow-connector::after {
+    background: linear-gradient(to right, transparent, var(--line), transparent);
+    animation-name: pulse-x;
+  }
+}
+@keyframes pulse-y {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+@keyframes pulse-x {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .flow-connector::after {
+    animation: none;
+    display: none;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Case study prose (MDX)
+   ------------------------------------------------------------------ */
+.prose-case h2 {
+  font-size: 1.6rem;
+  line-height: 1.25;
+  font-weight: 600;
+  color: var(--color-ink);
+  margin: 3.5rem 0 1rem;
+  letter-spacing: -0.01em;
+}
+.prose-case h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--color-ink);
+  margin: 2rem 0 0.5rem;
+}
+.prose-case p,
+.prose-case li {
+  font-size: 1.075rem;
+  line-height: 1.75;
+}
+.prose-case p {
+  margin: 0 0 1.1rem;
+}
+.prose-case ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+  margin: 0 0 1.25rem;
+}
+.prose-case li {
+  margin: 0.35rem 0;
+}
+.prose-case li::marker {
+  color: var(--project-accent-strong, var(--color-amber-deep));
+}
+.prose-case strong {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+.prose-case blockquote {
+  border-left: 3px solid var(--project-accent-strong, var(--color-amber));
+  padding: 0.25rem 0 0.25rem 1.25rem;
+  margin: 1.5rem 0;
+  font-size: 1.15rem;
+  color: var(--color-ink);
+}
+.prose-case blockquote p {
+  font-size: inherit;
+}
+.prose-case a {
+  color: var(--color-teal);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.prose-case code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background: #e6eaef;
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+
+/* ------------------------------------------------------------------
+   View transitions (React <ViewTransition> + browser API)
+   ------------------------------------------------------------------ */
+:root {
+  --vt-exit: 160ms;
+  --vt-enter: 240ms;
+  --vt-move: 520ms;
+}
+
+::view-transition {
+  pointer-events: none;
+}
+
+/* Shared elements: a project panel, title or image morphing
+   from one page into the next. */
+::view-transition-group(.morph) {
+  animation-duration: var(--vt-move);
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+::view-transition-image-pair(.morph) {
+  animation-name: via-blur;
+}
+::view-transition-old(.morph),
+::view-transition-new(.morph) {
+  /* Stretch snapshots instead of letterboxing them while the panel resizes */
+  height: 100%;
+  object-fit: cover;
+}
+@keyframes via-blur {
+  35% {
+    filter: blur(4px);
+  }
+}
+
+/* Page content sliding forward / back */
+::view-transition-old(.nav-forward) {
+  --slide-offset: -72px;
+  animation:
+    var(--vt-exit) ease-in both vt-fade reverse,
+    var(--vt-move) cubic-bezier(0.65, 0, 0.35, 1) both vt-slide reverse;
+}
+::view-transition-new(.nav-forward) {
+  --slide-offset: 72px;
+  animation:
+    var(--vt-enter) ease-out var(--vt-exit) both vt-fade,
+    var(--vt-move) cubic-bezier(0.65, 0, 0.35, 1) both vt-slide;
+}
+::view-transition-old(.nav-back) {
+  --slide-offset: 72px;
+  animation:
+    var(--vt-exit) ease-in both vt-fade reverse,
+    var(--vt-move) cubic-bezier(0.65, 0, 0.35, 1) both vt-slide reverse;
+}
+::view-transition-new(.nav-back) {
+  --slide-offset: -72px;
+  animation:
+    var(--vt-enter) ease-out var(--vt-exit) both vt-fade,
+    var(--vt-move) cubic-bezier(0.65, 0, 0.35, 1) both vt-slide;
+}
+@keyframes vt-fade {
+  from {
+    opacity: 0;
+    filter: blur(3px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+@keyframes vt-slide {
+  from {
+    translate: var(--slide-offset) 0;
+  }
+  to {
+    translate: 0 0;
+  }
+}
+
+/* Header stays put while content moves */
+::view-transition-group(site-header) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(site-header) {
+  display: none;
+}
+::view-transition-new(site-header) {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}

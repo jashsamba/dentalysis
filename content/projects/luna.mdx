@@ -1,0 +1,48 @@
+## The problem
+
+<Todo>Write the real story behind Luna in one short paragraph: what made you want a voice assistant that never leaves your laptop?</Todo>
+
+Luna is privacy-first by design. Every step, from hearing the wake word to speaking the answer, runs on my own machine with no cloud calls.
+
+## What it does
+
+- **Wakes on its name.** Say "Luna" and it starts listening.
+- **Knows who is talking.** Speaker recognition tells voices apart.
+- **Answers locally.** A local Llama model (llama3.2:3b) replies, and Kokoro turns the reply into natural speech.
+- **Controls the laptop.** Volume, apps, and Spotify.
+- **Remembers.** Past conversations are embedded for semantic search, so Luna can recall what was said before.
+- **Keeps its data fresh.** Apache Airflow pipelines pull financial data, and a live local dashboard shows what is happening.
+
+## How it works
+
+<FlowDiagram
+  label="Luna voice pipeline"
+  nodes={[
+    { label: 'Wake word', note: '"Luna"' },
+    { label: 'Speaker recognition' },
+    { label: 'Llama 3.2 3B', note: 'local model' },
+    { label: 'Kokoro speech' },
+  ]}
+/>
+
+Alongside the voice loop, Airflow pipelines keep financial data up to date, and every utterance is embedded into a semantic memory that the model can search.
+
+<Todo>Add the full architecture diagram (voice loop, memory store, Airflow pipelines, dashboard) and a short explanation.</Todo>
+
+## What was hard and how I solved it
+
+<Todo>Describe the hardest problem (for example, keeping response time low on a laptop GPU) and how you solved it.</Todo>
+
+## Results
+
+<Stats
+  items={[
+    { value: '59 tokens/s', label: 'llama3.2:3b on an RTX 3050 Ti laptop GPU' },
+    { value: '7 of 7', label: 'Airflow pipeline runs succeeded across 3 pipelines' },
+    { value: '100%', label: 'of logged utterances embedded for semantic memory' },
+  ]}
+/>
+
+<Todo>Log response latency for a day and add the median "hear you to first sound" time.</Todo>
+
+<Todo>Record a 30 to 60 second demo video and add a dashboard screenshot. Never publish household audio or conversation logs.</Todo>

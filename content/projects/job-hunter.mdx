@@ -1,0 +1,38 @@
+## The problem
+
+<Todo>Write the real story in one short paragraph: why you built this for yourself and a friend.</Todo>
+
+## What it does
+
+- **Finds jobs.** Scrapes Indeed with Playwright.
+- **Ranks them.** Claude scores each listing against the resume.
+- **Writes cover letters.** Generates a tailored PDF cover letter for each application.
+- **Tracks everything.** Every application is stored in Supabase behind a React dashboard.
+
+One idea worth calling out: the cover letters openly disclose that AI helped write them. The tool itself becomes a demonstration of the skills being applied for.
+
+## How it works
+
+<FlowDiagram
+  label="Job Hunter pipeline"
+  nodes={[
+    { label: 'Indeed listings', note: 'Playwright' },
+    { label: 'Fit score', note: 'Claude vs. resume' },
+    { label: 'Cover letter PDF' },
+    { label: 'Tracker', note: 'Supabase + React' },
+  ]}
+/>
+
+A FastAPI backend runs the scrape, scoring and letter-writing steps and writes the results to Supabase, which the React dashboard reads.
+
+<Todo>Re-enable row level security on all four tables with proper policies before describing per-user isolation here.</Todo>
+
+## What was hard and how I solved it
+
+<Todo>Describe the hardest problem and how you solved it.</Todo>
+
+## Results
+
+<Todo>Pull real counts from Supabase (job_listings, applications, scrape_sessions).</Todo>
+
+<Todo>Add at least basic tests, and a dashboard screenshot with dummy data only.</Todo>

@@ -1,0 +1,81 @@
+## The problem
+
+> It started on a long flight. I was playing the in-flight trivia game and noticed the same questions coming back. They were hard-coded, a fixed list someone wrote once. I started wondering: what if a language model could generate questions endlessly, so the game never ran dry?
+
+Doom Trivia is the answer. Questions come from an AI generation pipeline organized around a taxonomy of 40 topics and 2,000 subtopics, so the model explores the long tail of knowledge instead of repeating the same famous facts.
+
+## What it does
+
+- **Swipe to answer.** Drag the question card to an answer corner.
+- **Six game modes.** Simple, Tough, Time Attack, Flags Easy, Flags Hard, and Country Quiz.
+- **Streaks with a mascot.** A lantern character reacts as your streak grows.
+- **Day and night themes.**
+- **Play your way.** Guest play or Google/email sign-in, with save and load.
+
+<Figure
+  src="/images/doom-trivia-tough-mode.webp"
+  alt="Doom Trivia Tough mode: a question card asking which civilization built Machu Picchu, with Inca, Aztec, Maya and Olmec in the four corners."
+  width={420}
+  height={880}
+  caption="Tough is the four-answer mode: drag the card to one of four corners. The EASY tag on the card is the question's difficulty, not the mode."
+/>
+
+## How it works
+
+The question pipeline starts from a taxonomy of 40 topics split into 2,000 subtopics. Generating per subtopic pushes the model away from the handful of famous facts it would otherwise repeat. Curated questions are stored in Supabase and served to the Flutter app.
+
+<Todo>Add the generation pipeline diagram (taxonomy, generation, validation, Supabase, app).</Todo>
+
+### How generated questions are checked
+
+<Todo>Describe how generated questions are validated for accuracy: fact-checking, deduplication, and ambiguity checks. This is the section AI hiring managers will care about most.</Todo>
+
+## The redesign
+
+The first build was redesigned into a hand-directed woodland world.
+
+<BeforeAfter
+  before={{ src: '/images/doom-trivia-before.webp', label: 'Earlier build', alt: 'Earlier build of the Simple mode screen: a plain cream question card over a blurred forest background.' }}
+  after={{ src: '/images/doom-trivia-after.webp', label: 'Current build', alt: 'Current woodland build of the Simple mode screen.' }}
+/>
+
+<Confirm>The spec describes the "before" as a purple prototype, but the available before image (04-simple.png) is an earlier woodland build. Swap in a purple prototype screenshot or keep this caption.</Confirm>
+
+<Figure
+  src="/images/doom-trivia-home-night.webp"
+  alt="Doom Trivia home screen in the night theme."
+  width={420}
+  height={880}
+  caption="Night theme."
+/>
+
+<Figure
+  src="/images/doom-trivia-streak.webp"
+  alt="Doom Trivia streak screen showing the lantern mascot reacting to a streak of five."
+  width={420}
+  height={880}
+  caption="The lantern reacts to a five-question streak."
+/>
+
+## What was hard and how I solved it
+
+<Todo>Describe the hardest problem and how you solved it.</Todo>
+
+## Results
+
+<Stats
+  items={[
+    { value: '637', label: 'curated questions shipped (321 history, 183 science, 133 flags)' },
+    { value: '40 / 2,000', label: 'topics and subtopics in the taxonomy' },
+    { value: '51', label: 'passing tests (reported 2026-09-13)' },
+    { value: '6', label: 'game modes' },
+  ]}
+/>
+
+<Figure
+  src="/images/doom-trivia-desktop.webp"
+  alt="Doom Trivia home screen on a wide desktop layout."
+  width={1200}
+  height={750}
+  caption="The same woodland world on desktop."
+/>

@@ -1,14 +1,11 @@
+import createMDX from '@next/mdx'
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  images: {
-    unoptimized: true,
-  },
-};
+  output: 'export',
+  trailingSlash: true,
+  pageExtensions: ['ts', 'tsx', 'md', 'mdx'],
+  images: { unoptimized: true },
+}
 
-export default nextConfig;
+export default createMDX({})(nextConfig)

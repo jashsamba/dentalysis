@@ -1,0 +1,37 @@
+## The problem
+
+<Todo>Write the real story in one short paragraph: what goes wrong with booking dental appointments today?</Todo>
+
+## What it does
+
+A patient leaves a voice note and the appointment books itself.
+
+- **Understands the voice note.** OpenAI Whisper transcribes it.
+- **Pulls out the details.** GPT extracts the appointment details from the transcript.
+- **Books the slot.** The appointment goes straight into Google Calendar.
+- **Confirms by text.** Twilio sends the patient an SMS confirmation.
+
+## How it works
+
+<FlowDiagram
+  label="Voice Dental Scheduler flow"
+  nodes={[
+    { label: 'Voice note' },
+    { label: 'Whisper', note: 'transcription' },
+    { label: 'GPT', note: 'extracts details' },
+    { label: 'Google Calendar' },
+    { label: 'Twilio SMS', note: 'confirmation' },
+  ]}
+/>
+
+## What was hard and how I solved it
+
+<Todo>Describe the hardest problem and how you solved it.</Todo>
+
+## Results
+
+The project has 8 automated tests across 2 files.
+
+<Todo>Run the tests and record the result here.</Todo>
+
+<Todo>Record a short demo of the full flow with a fake patient.</Todo>
